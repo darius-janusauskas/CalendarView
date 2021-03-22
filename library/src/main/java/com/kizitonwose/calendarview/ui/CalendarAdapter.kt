@@ -224,7 +224,10 @@ internal class CalendarAdapter(
                             // by checking the number of visible(non-empty) rows.
                             visibleMonth.weekDays.size * calView.daySize.height +
                             visibleVH.footerView?.height.orZero() +
-                            visibleVH.footerView?.getVerticalMargins().orZero()
+                            visibleVH.footerView?.getVerticalMargins().orZero() +
+                            visibleVH.itemView.getVerticalMargins() +
+                            visibleVH.itemView.paddingTop +
+                            visibleVH.itemView.paddingBottom
                     if (calView.height != newHeight && !initialLayout) {
                         ValueAnimator.ofInt(calView.height, newHeight).apply {
                             // Don't animate when the view is shown initially.
