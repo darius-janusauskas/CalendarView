@@ -228,15 +228,19 @@ internal class CalendarAdapter(
                             visibleVH.itemView.getVerticalMargins() +
                             visibleVH.itemView.paddingTop +
                             visibleVH.itemView.paddingBottom
-                    if (calView.height != newHeight && !initialLayout) {
-                        ValueAnimator.ofInt(calView.height, newHeight).apply {
-                            // Don't animate when the view is shown initially.
-                            duration = calView.wrappedPageHeightAnimationDuration.toLong()
-                            addUpdateListener {
-                                calView.updateLayoutParams { height = it.animatedValue as Int }
-                                visibleVH.itemView.requestLayout()
+                    if (calView.height != newHeight) {
+                        if (!initialLayout) {
+                            ValueAnimator.ofInt(calView.height, newHeight).apply {
+                                // Don't animate when the view is shown initially.
+                                duration = calView.wrappedPageHeightAnimationDuration.toLong()
+                                addUpdateListener {
+                                    calView.updateLayoutParams { height = it.animatedValue as Int }
+                                    visibleVH.itemView.requestLayout()
+                                }
+                                start()
                             }
-                            start()
+                        } else {
+                            calView.layoutParams.height = newHeight
                         }
                     } else {
                         // Fixes #199, #266
